@@ -119,8 +119,17 @@ public class EduardoGuevara_Lab1AlexyCruz_Lab1 {
 
     public static ArrayList crearclases(ArrayList<String> ListaGeneralClases) {
         char r = ' ';
+        String valida = "";
         c.Setnombre(JOptionPane.showInputDialog("Ingrese el nombre de la clase: "));
-        c.Setseccion(Integer.parseInt(JOptionPane.showInputDialog("Ingrese el codigo de la clase: ")));
+        boolean cc = false;
+        while (cc == false) {
+            c.Setseccion(Integer.parseInt(JOptionPane.showInputDialog("Ingrese el codigo de la clase: ")));
+            if (ListaGeneralClases.contains(c.Getseccion() + "")) {
+                JOptionPane.showMessageDialog(null, "Codigo ya existe");
+            } else {
+                cc = true;
+            }
+        }
         c.Setcantmaxalum(Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad maxima de alumnos: ")));
         c.Setunidades(Integer.parseInt(JOptionPane.showInputDialog("Ingrese las unidades de la clase: ")));
         while (r == 's' && c.alumnos.size() <= c.Getcantmaxalum()) {
@@ -182,6 +191,12 @@ public class EduardoGuevara_Lab1AlexyCruz_Lab1 {
     }
 
     public static void Matricula() {
-        JOptionPane.showMessageDialog(null, ListaGeneralClases);
+        String nombresecc = "";
+        String[] nom;
+        for (int i = 0; i < Clasesinf.size(); i++) {
+            nom = Clasesinf.get(i).split("<");
+            nombresecc += nom[5] + "  " + nom[2] + "\n";
+        }
+        JOptionPane.showMessageDialog(null, nombresecc);
     }
 }
