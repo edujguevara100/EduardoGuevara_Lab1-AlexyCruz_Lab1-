@@ -32,41 +32,47 @@ public class EduardoGuevara_Lab1AlexyCruz_Lab1 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        for (int i = 0; i < ListaGeneralClases.size(); i++) {
-
-        }
-        char r = ' ';
-        if (ListaGeneralClases.size() != 0) {
-            String a = JOptionPane.showInputDialog("Desea crear clases[s/n]");
-            r = a.charAt(0);
-        }
-        while (r == 's' || r == 'S' || ListaGeneralClases.size() == 0) {
-            crearclases(ListaGeneralClases);
-            if (ListaGeneralMaestros.size() != 0) {
-                for (int i = 0; i < c.cantmaxalum; i++) {
-                    c.Setmaestro("Ingrese el maestro");
-                    c.alumnos.add(JOptionPane.showInputDialog("Ingrese los alumnos de uno en uno"));
-                }
+        char r = ' ', s = 's', h = 's';
+        while (s == 's') {
+            switch (Menu()) {
+                case 1:
+                    if (ListaGeneralClases.size() != 0) {
+                        String a = JOptionPane.showInputDialog("Desea crear clases[s/n]");
+                        r = a.charAt(0);
+                    }
+                    while (r == 's' || r == 'S' || ListaGeneralClases.size() == 0) {
+                        crearclases(ListaGeneralClases);
+                        if (ListaGeneralMaestros.size() != 0) {
+                            for (int i = 0; i < c.cantmaxalum; i++) {
+                                c.Setmaestro("Ingrese el maestro");
+                                c.alumnos.add(JOptionPane.showInputDialog("Ingrese los alumnos de uno en uno"));
+                            }
+                        }
+                        Clasesinf.add(c.Getmaestro() + "<" + c.Getalumnos() + "<" + c.Getseccion() + "<"
+                                + c.Getcantmaxalum() + "<" + c.Getunidades() + "<" + c.Getnombre() + "<");
+                        String j = JOptionPane.showInputDialog("Desea seguir creando clases[s/n]");
+                        r = j.charAt(0);
+                    }
+                    String x = JOptionPane.showInputDialog("Desea crear maestros[s/n]");
+                    r = x.charAt(0);
+                    while (r == 's') {
+                        crearmaestros(ListaGeneralMaestros);
+                        x = JOptionPane.showInputDialog("Desea crear maestros[s/n]");
+                        r = x.charAt(0);
+                    }
+                    Matricula();
+                    break;
+                case 2:
+                    JOptionPane.showMessageDialog(null, "Bienvenido al registro, por favor llene el formulario");
+                    Registro();
+                    break;
+                case 3:
+                    break;
+                default:
+                    break;
             }
-            Clasesinf.add(c.Getmaestro() + "<" + c.Getalumnos() + "<" + c.Getseccion() + "<"
-                    + c.Getcantmaxalum() + "<" + c.Getunidades() + "<" + c.Getnombre() + "<");
-        }
-        String x = JOptionPane.showInputDialog("Desea crear maestros[s/n]");
-        r = x.charAt(0);
-        while (r == 's') {
-            crearmaestros(ListaGeneralMaestros);
-            x = JOptionPane.showInputDialog("Desea crear maestros[s/n]");
-            r = x.charAt(0);
-        }
-        switch (Menu()) {
-            case 1:
-                break;
-            case 2:
-                JOptionPane.showMessageDialog(null, "Bienvenido al registro, por favor llene el formulario");
-                break;
-            case 3:
-                break;
-            default:
+            String ciclo = JOptionPane.showInputDialog("Desea continuar[s/n]");
+            s = ciclo.charAt(0);
         }
     }
 
@@ -138,21 +144,29 @@ public class EduardoGuevara_Lab1AlexyCruz_Lab1 {
         m.Setsalario(Double.parseDouble(JOptionPane.showInputDialog("Ingrese su salario")));
         int conta = 0, contcla = 0;
         char n = ' ';
+        boolean valid = false;
         while (conta < m.Getcantmaxclases() || n == 's') {
             m.listaclases.add(JOptionPane.showInputDialog("Ingrese el codigo de las clases que lleva una a una"));
             for (int i = 0; i < ListaGeneralClases.size(); i++) {
                 if (m.listaclases.get(conta).equals(ListaGeneralClases.get(i))) {
-                    //dividir cadena en Tokens (parseo)
                     String[] Tokens = Clasesinf.get(conta).split("<");
-                    //sout tokens[1].split(",")[1];
                     if (Tokens[0].equals(null)) {
                         c.Setnombre(m.Getnombre());
-                        Clasesinf.get(conta) = Tokens[0] + "<" + c.Getalumnos();
+                        Clasesinf.remove(conta);
+                        Clasesinf.add(conta, m.Getnombre() + "<" + c.Getalumnos() + "<" + c.Getseccion() + "<"
+                                + c.Getcantmaxalum() + "<" + c.Getunidades() + "<" + c.Getnombre() + "<");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Clase ya esta ocupada");
+                        valid = true;
+                        break;
                     }
                     break;
                 } else {
                     contcla++;
                 }
+            }
+            if (valid == true) {
+                continue;
             }
             if (contcla == ListaGeneralClases.size()) {
                 JOptionPane.showMessageDialog(null, "Clase no existe");
@@ -165,5 +179,9 @@ public class EduardoGuevara_Lab1AlexyCruz_Lab1 {
                 + m.Gettitulo() + "<" + m.Getusuario() + "<" + m.Getcantmaxclases() + "<" + m.Getsalario() + "<"
                 + m.Getlistaclases());
         return ListaGeneralMaestros;
+    }
+
+    public static void Matricula() {
+        JOptionPane.showMessageDialog(null, ListaGeneralClases);
     }
 }
