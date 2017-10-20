@@ -16,7 +16,7 @@ import Clases.Maestro;
  * @author edujg
  */
 public class EduardoGuevara_Lab1AlexyCruz_Lab1 {
-
+    
     static Maestro m = new Maestro();
     static Alumno a = new Alumno();
     static Clases c = new Clases();
@@ -34,6 +34,19 @@ public class EduardoGuevara_Lab1AlexyCruz_Lab1 {
         // TODO code application logic here
         char r = ' ', s = 's', h = 's';
         while (s == 's') {
+            while (r == 's' || r == 'S' || ListaGeneralClases.size() == 0) {
+                crearclases(ListaGeneralClases);
+                if (ListaGeneralMaestros.size() != 0) {
+                    for (int i = 0; i < c.cantmaxalum; i++) {
+                        c.Setmaestro("Ingrese el maestro");
+                        c.alumnos.add(JOptionPane.showInputDialog("Ingrese los alumnos de uno en uno"));
+                    }
+                }
+                Clasesinf.add(c.Getmaestro() + "<" + c.Getalumnos() + "<" + c.Getseccion() + "<"
+                        + c.Getcantmaxalum() + "<" + c.Getunidades() + "<" + c.Getnombre() + "<");
+                String j = JOptionPane.showInputDialog("Desea seguir creando clases[s/n]");
+                r = j.charAt(0);
+            }
             switch (Menu()) {
                 case 1:
                     if (ListaGeneralClases.size() != 0) {
@@ -60,11 +73,11 @@ public class EduardoGuevara_Lab1AlexyCruz_Lab1 {
                         x = JOptionPane.showInputDialog("Desea crear maestros[s/n]");
                         r = x.charAt(0);
                     }
-                    Matricula();
                     break;
                 case 2:
                     JOptionPane.showMessageDialog(null, "Bienvenido al registro, por favor llene el formulario");
                     Registro();
+                    Matricula();
                     break;
                 case 3:
                     break;
@@ -75,7 +88,7 @@ public class EduardoGuevara_Lab1AlexyCruz_Lab1 {
             s = ciclo.charAt(0);
         }
     }
-
+    
     public static int Menu() {
         int opcion = Integer.parseInt(JOptionPane.showInputDialog("1: Administracion\n2:Matricula\n3:Log in"));
         return opcion;
@@ -92,31 +105,39 @@ public class EduardoGuevara_Lab1AlexyCruz_Lab1 {
         a.Setdinero(Double.parseDouble(JOptionPane.showInputDialog("Ingrese su dinero disponible: ")));
         a.Setusuario(JOptionPane.showInputDialog("Ingrese su usuario: "));
         a.Setcontra(JOptionPane.showInputDialog("Ingrese su contraseña: "));
+        String clase = "";
+        boolean salir = false;
         for (int i = 0; i < 10; i++) {
-            String clase = JOptionPane.showInputDialog("Ingrese el codigo de las clases que esta cursando(una a una): ");
+            clase = JOptionPane.showInputDialog("Ingrese el codigo de las clases que esta cursando(una a una): ");
             if (contv == ListaGeneralClases.size()) {
                 clase = JOptionPane.showInputDialog("Vuela a ingresar la clase");
+                i--;
             }
             for (int j = 0; j < ListaGeneralClases.size(); j++) {
                 if (clase.equals(ListaGeneralClases.get(j))) {
-
+                    salir = true;
+                    break;
                 } else {
                     contv++;
                 }
+            }
+            if (salir == true) {
+                break;
             }
             if (contv == ListaGeneralClases.size()) {
                 JOptionPane.showMessageDialog(null, "Clase ingresada no existe");
                 i--;
             }
-            if (contv != ListaGeneralClases.size()) {
-                a.clases.add(clase);
-                contv = 0;
-            }
+        }
+        if (contv != ListaGeneralClases.size()) {
+            a.clases.add(clase);
+            a.Setclases(a.clases);
+            contv = 0;
         }
         ListaGeneralAlumnos.add("" + a.Getnombre() + "<" + a.Getnumc() + "<" + a.Getedad() + "<"
                 + a.Getcarrera() + "<" + a.Getcontra() + "<" + a.Getusuario() + "<" + a.Getdinero() + "<");
     }
-
+    
     public static ArrayList crearclases(ArrayList<String> ListaGeneralClases) {
         char r = ' ';
         String valida = "";
@@ -189,7 +210,7 @@ public class EduardoGuevara_Lab1AlexyCruz_Lab1 {
                 + m.Getlistaclases());
         return ListaGeneralMaestros;
     }
-
+    
     public static void Matricula() {
         String nombresecc = "";
         String[] nom;
